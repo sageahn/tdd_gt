@@ -29,7 +29,8 @@ CXXFLAGS += -g -Wall -Wextra -pthread
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
-TESTS = anigram_unittest
+APP = anagram
+TESTS = $(APP)_unittest
 
 # All Google Test headers.  Usually you shouldn't change this
 # definition.
@@ -71,12 +72,12 @@ gtest_main.a : gtest-all.o gtest_main.o
 # gtest_main.a, depending on whether it defines its own main()
 # function.
 
-anigram.o : $(USER_DIR)/anigram.cc $(USER_DIR)/anigram.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/anigram.cc
+a.o : $(USER_DIR)/$(APP).cc $(USER_DIR)/$(APP).h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/$(APP).cc
 
-anigram_unittest.o : $(USER_DIR)/anigram_unittest.cc \
-                     $(USER_DIR)/anigram.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/anigram_unittest.cc
+$(APP)_unittest.o : $(USER_DIR)/$(APP)_unittest.cc \
+                     $(USER_DIR)/$(APP).h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/$(APP)_unittest.cc
 
-anigram_unittest : anigram.o anigram_unittest.o gtest_main.a
+$(APP)_unittest : $(APP).o $(APP)_unittest.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
